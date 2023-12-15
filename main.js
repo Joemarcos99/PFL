@@ -17,6 +17,54 @@ const stop = document.getElementById("stop-btn");
 let interval = 0;
 let clicks = 0;
 
+// Array of sound file paths
+let touchdownFiles = [
+  'touchdown 1.mp3',
+  'touchdown 2.mp3',
+  'touchdown 3.mp3',
+  'touchdown 4.mp3',
+  'kid.mp3',
+  'cop speed.mp3',
+  'touchdown woah.mp3'
+  // Add more sound file paths as needed
+];
+
+// Array of sound file paths
+let randMomentFiles = [
+  'pop out.mp3',
+  'unbelieveable.mp3',
+  'what a play.mp3',
+  'parking lot.mp3',
+  'intelect.mp3',
+  'hahaha.mp3',
+  'ukalele.mp3'
+  // Add more sound file paths as needed
+];
+
+// Function to play a random sound
+function playRandomTDSound() {
+  // Generate a random index
+  var randomIndex = Math.floor(Math.random() * touchdownFiles.length);
+
+  // Create an Audio object with the randomly selected sound file path
+  var audio = new Audio(touchdownFiles[randomIndex]);
+
+  // Play the audio
+  audio.play();
+}
+
+// Function to play a random sound
+function playRandomMomentSound() {
+  // Generate a random index
+  var randomIndex = Math.floor(Math.random() * randMomentFiles.length);
+
+  // Create an Audio object with the randomly selected sound file path
+  var audio = new Audio(randMomentFiles[randomIndex]);
+
+  // Play the audio
+  audio.play();
+}
+
 /*
 function called to start timer when start btn is clicked.
 Clicks var used to not make time count down twice as fast
@@ -48,16 +96,20 @@ function updateTime() {
   let min = Math.floor(seconds / 60);
   let sec = seconds % 60;
   sec = sec < 10 ? "0" + sec : sec;
-  console.log("min", min, "sec", sec);
-  if(min < 0) {
-    console.log("done");
 
+  if(min < 0) {
     timer.innerHTML = "FINAL";
   } else {
     timer.innerHTML = min + ":" + sec;
     if(min == 0 && sec == "00") {
       playGAME();
-    }
+    } else if (min == 9 && sec == "59") {
+      playIntro();
+    } else if (min != 0 && sec == "00") {
+      playRandomMomentSound();
+    } else if (min == 0 && sec == "08") {
+      play5toGo();
+    } 
   }
 }
 
@@ -79,19 +131,27 @@ function playGAME() {
 }
 
 
-// Function to play the sound
-function playCOP() {
+
+
+function play5toGo() {
   // Create an Audio object with the path to your sound file
-  var audio = new Audio('cop speed.mp3');
+  var audio = new Audio('5 to go.mp3');
 
   // Play the audio
   audio.play();
 }
 
-
-function playWOAH() {
+function playTie() {
   // Create an Audio object with the path to your sound file
-  var audio = new Audio('touchdown woah.mp3');
+  var audio = new Audio('tie.mp3');
+
+  // Play the audio
+  audio.play();
+}
+
+function playIntro() {
+  // Create an Audio object with the path to your sound file
+  var audio = new Audio('intro.mp3');
 
   // Play the audio
   audio.play();
@@ -115,12 +175,19 @@ for (let i = 1; i <= 9; i++) {
   let id = "t1Btn" + i;
   document.getElementById(id).onclick = function () {
     teamOneScore += Number(document.getElementById(id).value);
-    console.log(Number(document.getElementById(id).value));
     if(Number(document.getElementById(id).value) == 6) {
-      // if touchdown
-      playCOP();
+      // if touchdown and not tie
+      if(teamOneScore == teamTwoScore) {
+        playTie();
+      } else {
+        playRandomTDSound();
+      }
     } else if(Number(document.getElementById(id).value) == 8) {
-      playKID();
+      if(teamOneScore == teamTwoScore) {
+        playTie();
+      } else {
+        playKID();
+      }
     }
     scoreBoard.innerHTML = teamOneScore + " - " + teamTwoScore;
   };
@@ -128,10 +195,19 @@ for (let i = 1; i <= 9; i++) {
   document.getElementById(id2).onclick = function () {
     teamTwoScore += Number(document.getElementById(id2).value);
     if(Number(document.getElementById(id2).value) == 6) {
-      // if touchdown
-      playWOAH();
+      // if touchdown and not tie
+      if(teamOneScore == teamTwoScore) {
+        playTie();
+      } else {
+        playRandomTDSound();
+      }
     } else if(Number(document.getElementById(id).value) == 8) {
-      playKID();
+      if(teamOneScore == teamTwoScore) {
+        playTie();
+      } else {
+        playKID();
+      }
+
     }
     scoreBoard.innerHTML = teamOneScore + " - " + teamTwoScore;
   };
