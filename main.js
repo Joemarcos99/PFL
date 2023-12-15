@@ -9,7 +9,7 @@ Date: 4/2/2022
 let teamOneScore = 0;
 let teamTwoScore = 0;
 let scoreBoard = document.getElementById("score");
-let initialMinutes = .1;
+let initialMinutes = 10;
 let seconds = initialMinutes * 60;
 const timer = document.getElementById("timer-label");
 const start = document.getElementById("start-btn");
