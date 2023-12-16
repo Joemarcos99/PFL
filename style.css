@@ -15,7 +15,7 @@ Date: 4/2/2022
 for top bar that has the score board and images
 */
 .scoreboard {
-  background-color: #78be21;
+  background-color: #fefffd;
   height: 7em;
   display: flex;
   justify-content: center;
